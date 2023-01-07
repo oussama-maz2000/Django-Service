@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+#CELERY_BROKER_URL="amqps://pgmqkkhl:DC516D0tzh9OnHejzCbzyyh3VaJJUIxE@kangaroo.rmq.cloudamqp.com/pgmqkkhl"
 ROOT_URLCONF = 'app.urls'
 
 TEMPLATES = [

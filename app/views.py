@@ -2,11 +2,17 @@ from rest_framework.decorators import api_view
 from django.http import HttpRequest,HttpResponse
 from .process import search
 import json
+from .process import producer,consumer
 
-
-@api_view(['GET'])
+consumer
+''' @api_view(['GET'])
 def welcome(HttpRequest):
-    search.ClusterAndClassifyToDB()
+    #search.ClusterAndClassifyToDB()
+    #predection=search.getNearestNeigbors(49.2221045,-0.4440154)
+   # num=predection[0]
+   # value=str(num)
+    producer.publish('2')
+    
     return HttpResponse("proccessing data please wait ...") 
 
 
@@ -16,5 +22,4 @@ def getNearestAddress(HttpRequest):
     data=json.loads(requestBody) 
     predection=search.getNearestNeigbors(data['latitude'],data['longitude'])
     return HttpResponse(predection)
-    
-    
+     '''
