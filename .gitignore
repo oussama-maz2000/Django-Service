@@ -3,3 +3,5 @@ app/app/process/__pycache__/consumer.cpython-38.pyc
 app/process/__pycache__/producer.cpython-38.pyc
 app/process/__pycache__/receive.cpython-38.pyc
 db.sqlite3
+app/process/data/original.csv
+app/process/data/addressClustred.csv
