@@ -9,12 +9,15 @@ channel=connection.channel()
 def callback(ch,method,properties,body):
     data=json.loads(body) 
     if(data== "-1"):
-        #ClusterAndClassifyToDB()
-        print(type(data))
+        ClusterAndClassifyToDB()
+        print('clustering ...')
+        
     else:
-        predection=getNearestNeigbors(data['latitude'],data['longitude'])[0]
-        message=str(predection)
-        #publish(message)
+        predection=getNearestNeigbors(data['latitude'],data['longitude'])[0]      
+        dict={'id':data['id'],'cluster':str(predection)}
+        publish(dict)
+        print('sending ...')
+        
         
 channel.basic_consume(queue="REQUEST_QUEUE",on_message_callback=callback,auto_ack=True)
 

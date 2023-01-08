@@ -39,7 +39,6 @@ def clusterAddresses():
     b=True
     nClust=2
     j=0
-    print(hist)
     while b:
         n=nClust 
         for i in range(0,n):
