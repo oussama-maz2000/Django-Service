@@ -1,15 +1,18 @@
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.model_selection import train_test_split
 from django.db import connection 
-crsr = connection.cursor()
 
-def scaler():
+
+def getInfoFromD():
     dataframe=pd.read_sql_query("select * from lgl_address",connection)
     dataframe.to_csv("app/process/data/original.csv",index=False)
+    return dataframe
+
+def scaler():
+    dataframe=getInfoFromD()
     scaledinfo=calculateScaler(dataframe,dataframe[['lgl_address_latitude']],dataframe[['lgl_address_longitude']])
     lat=np.array(scaledinfo[0][0])
     long=np.array(scaledinfo[0][1])
@@ -28,8 +31,7 @@ def calculateScaler(dataframe,latitude,longitude):
     return infoScaled
 
 def clusterAddresses():
-    dataframe=pd.read_sql_query("select * from lgl_address",connection)
-    dataframe.to_csv("app/process/data/original.csv",index=False)
+    dataframe=getInfoFromD()
     ids=dataframe[['lgl_address_id']]
     df1=scaler()
     clustering_model_no_cluster = AgglomerativeClustering()
@@ -71,6 +73,7 @@ def getNearestNeigbors(latitude,longitude):
     return pred 
 
 def setClusterInDB():
+    crsr = connection.cursor()
     addressClusterd=pd.read_csv("app/process/data/addressClustred.csv")
     cluster=addressClusterd['lgl_address_cluster']
     ids=addressClusterd['lgl_address_id']
@@ -79,6 +82,7 @@ def setClusterInDB():
         dt=(j,i)
         crsr.execute(query,dt)
     connection.commit()
+
     
 
 def ClusterAndClassifyToDB():

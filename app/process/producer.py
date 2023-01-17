@@ -6,3 +6,4 @@ def publish(message):
     connection=pika.BlockingConnection(param)
     channel=connection.channel()
     channel.basic_publish(exchange="REQUEST_EXCHANGE",routing_key="RESPONSE_ROUTING_KEY",body=json.dumps(message))
+    channel.close()
